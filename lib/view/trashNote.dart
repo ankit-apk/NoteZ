@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notesz/controller/notes_controller.dart';
-import 'package:notesz/view/viewTrashNote.dart';
+import 'package:notesz/view/home.dart';
 
 class TrashNote extends StatefulWidget {
   @override
@@ -29,13 +29,17 @@ class _TrashNoteState extends State<TrashNote> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          Get.to(
-                            () => TrashNoteDetail(),
+                          Get.offAll(
+                            () => Home(),
                             arguments: [
+                              n.trashNoteList[index]['Title'].toString(),
                               n.trashNoteList[index]['Note'].toString(),
-                              n.trashNoteList[index]['Title'].toString()
                             ],
                           );
+                          n.addNotes();
+                          n.deleteTrashNote();
+                          n.trashNoteList.clear();
+                          n.notesList.clear();
                         },
                         child: Card(
                           elevation: 8.0,
@@ -45,14 +49,25 @@ class _TrashNoteState extends State<TrashNote> {
                             decoration: BoxDecoration(
                                 color: Color.fromRGBO(64, 75, 96, .9)),
                             child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Text(
-                                  n.trashNoteList[index]['Title'].toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white60,
-                                      fontSize: 25)),
-                            ),
+                                padding: const EdgeInsets.all(20.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                        n.trashNoteList[index]['Title']
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white60,
+                                            fontSize: 25)),
+                                    Icon(
+                                      Icons.restore,
+                                      size: 35,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                )),
                           ),
                         ),
                       );

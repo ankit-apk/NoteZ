@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1022868187994",
+    "project_id": "notesz-5c732",
+    "storage_bucket": "notesz-5c732.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022868187994:android:b363677d3c1613e9c6e163",
+        "android_client_info": {
+          "package_name": "com.notesz.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022868187994-ho7rsmajm7hm73p73em786uv3od5iod8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT2eKWZ6BOmmGuLrCHm1xA8IFJk7t8dNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022868187994-ho7rsmajm7hm73p73em786uv3od5iod8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notesz/controller/notes_bloc.dart';
+import 'package:notesz/bLoc/notes_bloc.dart';
 import 'package:notesz/view/home.dart';
 
 class TrashNote extends StatefulWidget {

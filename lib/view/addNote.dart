@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:notesz/controller/notes_controller.dart';
+import 'package:notesz/controller/notes_bloc.dart';
 import 'package:notesz/view/home.dart';
 
 class AddNote extends StatefulWidget {
   String title = '';
+  String video = '';
   String notes = '';
 
   @override
@@ -12,7 +12,8 @@ class AddNote extends StatefulWidget {
 }
 
 class _AddNoteState extends State<AddNote> {
-  NotesController n = Get.put(NotesController());
+  var notesBloc = NotesBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +40,28 @@ class _AddNoteState extends State<AddNote> {
                         setState(
                           () {
                             widget.title = input;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black38,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: TextField(
+                      style: TextStyle(color: Colors.white70, fontSize: 18),
+                      decoration: InputDecoration(
+                        hintText: "  Video url",
+                        hintStyle: TextStyle(color: Colors.white70),
+                      ),
+                      onChanged: (input) {
+                        setState(
+                          () {
+                            widget.video = input;
                           },
                         );
                       },
@@ -75,10 +98,10 @@ class _AddNoteState extends State<AddNote> {
                         backgroundColor:
                             MaterialStateProperty.all(Colors.black)),
                     onPressed: () {
-                      Get.offAll(() => Home(),
-                          arguments: [widget.title.obs, widget.notes.obs]);
-                      n.addNotes();
-                      n.notesList.clear();
+                      notesBloc.addNotes(
+                          widget.title, widget.video, widget.notes);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Home()));
                     },
                     child: Icon(Icons.add),
                   ),

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:notesz/controller/notes_controller.dart';
+import 'package:notesz/controller/notes_bloc.dart';
 import 'package:notesz/view/home.dart';
-import 'package:notesz/view/trashNote.dart';
+import 'package:notesz/view/videoplayer.dart';
 
 class NoteDetail extends StatefulWidget {
+  String title;
+  String video;
+  String note;
+  NoteDetail({this.note, this.video, this.title});
   @override
   _NoteDetailState createState() => _NoteDetailState();
 }
 
 class _NoteDetailState extends State<NoteDetail> {
-  NotesController n = Get.put(NotesController());
+  var notesBloc = NotesBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +37,48 @@ class _NoteDetailState extends State<NoteDetail> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          Get.arguments[0],
+                          widget.note,
                           style: TextStyle(fontSize: 20, color: Colors.white70),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 8.0,
+                    margin: new EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: Container(
+                      height: 100,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(64, 75, 96, .9),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return VideoDemo(video: widget.video.toString());
+                            }));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  widget.video,
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white70),
+                                ),
+                              ),
+                              Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 40,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -46,12 +89,14 @@ class _NoteDetailState extends State<NoteDetail> {
                         backgroundColor:
                             MaterialStateProperty.all(Colors.black)),
                     onPressed: () {
-                      Get.off(() => Home(),
-                          arguments: [Get.arguments[1], Get.arguments[0]]);
-                      n.movetoTrash();
-                      n.deleteNote();
-                      n.notesList.clear();
-                      n.trashNoteList.clear();
+                      notesBloc.movetoTrash(
+                          widget.title, widget.video, widget.note);
+                      notesBloc.deleteNote(widget.title);
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return Home();
+                      }));
                     },
                     child: Icon(Icons.delete_forever),
                   ),
